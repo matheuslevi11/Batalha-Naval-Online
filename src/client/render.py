@@ -2,6 +2,7 @@
 import pygame
 from board import create_board
 from draw import *
+from main import *
 import time
 
 WIDTH = 650
@@ -34,19 +35,30 @@ while True:
             pygame.quit()
             exit()
         
-        # Request pro servidor perguntando a quantidade de jogadores
-        players = 2 #INSERIR REQUEST
-        if players == 2 and page == 'home':
+        if page == 'home':
+            start_button = pygame.Rect(180, 426, 265, 80)
+            if e.type == pygame.MOUSEBUTTONDOWN:
+                if start_button.collidepoint(pygame.mouse.get_pos()):
+                    page = 'wait'
+        
+        if page == 'wait':
+            draw_wait(screen)
+            pygame.display.update()
+            # Request pro servidor perguntando a quantidade de jogadores
+            players = 2 #INSERIR REQUEST
             page = 'board'
-            time.sleep(5)
+            time.sleep(15)
             board_buttons = draw_board(screen, board)
         
         if page == 'board':
             if e.type == pygame.MOUSEBUTTONDOWN:
-                for row in board_buttons:
-                    for button in row:
+                for i in range(10):
+                    for j in range(10):
+                        button = board_buttons[i][j]
                         if button.collidepoint(pygame.mouse.get_pos()):
-                            pygame.draw.rect(screen, (100,0,0), button)
+                            # Se for o turno dele, jogar!
+                            board = handle_play(button, board, i, j, screen)
+                            draw_board(screen, board)
 
         pygame.display.update()
         

@@ -36,7 +36,7 @@ def create_board():
     for i in range(10):
         row = []
         for j in range(10):
-            row.append({'type': 'water', 'id': '0'})
+            row.append({'type': 'water', 'id': 0, 'shot': 0})
         board.append(row)
 
     # Colocar de forma randômica os navios

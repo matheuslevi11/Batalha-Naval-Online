@@ -1,6 +1,7 @@
 """Desenha componentes na tela: tabuleiro, letras, páginas"""
 
 import pygame
+from images import get_image
 
 def draw_letter(letter):  
     opensans = pygame.font.SysFont('opensanscondensed', 20)
@@ -55,7 +56,9 @@ def draw_board(screen, board):
         for j in range(10):
             if board[i][j]['type'] == 'water':
                 color = (0, 105, 148)
-            if board[i][j]['type'] == 'ship':
+            elif board[i][j]['shot']:
+                color = (100,0,0)
+            elif board[i][j]['type'] == 'ship':
                 color = get_color(board[i][j]['id'])
             retangulo = pygame.Rect(x, y, rect_size, rect_size)
             row.append(retangulo)
@@ -68,6 +71,9 @@ def draw_board(screen, board):
     return board_buttons
 
 def draw_homepage(screen):
-    screen.fill((196, 187, 2))
-    text = draw_instruction('Aguardando o outro jogador...', (0,0,0))
-    screen.blit(text, (200, 300))
+    bd = get_image('home.png', (650,650))
+    screen.blit(bd, (0,0))
+
+def draw_wait(screen):
+    bd = get_image('wait.png', (650,650))
+    screen.blit(bd, (0,0))
