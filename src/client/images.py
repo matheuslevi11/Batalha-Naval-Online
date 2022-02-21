@@ -3,6 +3,6 @@
 import pygame
 
 def get_image(filename, scale):
-    background_src = pygame.image.load(f'../images/{filename}').convert_alpha()
-    background = pygame.transform.scale(background_src, scale)
-    return background
+    image_src = pygame.image.load(f'../images/{filename}').convert_alpha()
+    image = pygame.transform.scale(image_src, scale)
+    return image

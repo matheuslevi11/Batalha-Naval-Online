@@ -74,3 +74,12 @@ def create_board():
 
     return board
 
+def create_placement_board():
+    board = []
+    for i in range(10):
+        row = []
+        for j in range(10):
+            row.append({'type': 'water', 'id': 0, 'shot': 0})
+        board.append(row)
+    
+    return board

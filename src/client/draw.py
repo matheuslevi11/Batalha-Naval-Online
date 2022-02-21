@@ -13,10 +13,11 @@ def draw_number(number):
     text = opensans.render(str(number), True, (255, 255, 255))
     return text
 
-def draw_instruction(title, color):
+def draw_text(title, color, screen):
     opensans = pygame.font.SysFont('opensanscondensed', 25)
     text = opensans.render(title, True, color)
-    return text
+    screen.blit(text, (0, 0))
+    pygame.display.update()
 
 def get_color(id):
     # Submarinos
@@ -54,12 +55,17 @@ def draw_board(screen, board):
         screen.blit(draw_letter(l), (x-20, y+10))
         row = []
         for j in range(10):
-            if board[i][j]['type'] == 'water':
-                color = (0, 105, 148)
-            elif board[i][j]['shot']:
+            tile = board[i][j]
+
+            if tile['type'] == 'water' and tile['shot']:
                 color = (100,0,0)
-            elif board[i][j]['type'] == 'ship':
+            elif tile['type'] == 'water':
+                color = (0, 105, 148)
+            elif tile['type'] == 'ship' and tile['shot']:
+                color = (0, 100, 0)
+            elif tile['type'] == 'ship':
                 color = get_color(board[i][j]['id'])
+           
             retangulo = pygame.Rect(x, y, rect_size, rect_size)
             row.append(retangulo)
             pygame.draw.rect(screen, color, retangulo)
@@ -76,4 +82,17 @@ def draw_homepage(screen):
 
 def draw_wait(screen):
     bd = get_image('wait.png', (650,650))
+    screen.blit(bd, (0,0))
+
+def draw_score(screen, score):
+    opensans = pygame.font.SysFont('opensanscondensed', 30)
+    text = opensans.render(f"1P {score[0]} X {score[1]} 2P", True, (0, 0, 100))
+    screen.blit(text, (520, 20))
+    pygame.display.update()
+
+def draw_end(screen, won):
+    if won:
+        bd = get_image('won.png', (650, 650))
+    else:
+        bd = get_image('lose.png', (650, 650))
     screen.blit(bd, (0,0))
