@@ -1,4 +1,4 @@
-"""Arquivo principal, contendo a lógica do jogo"""
+"""Arquivo contendo a lógica do jogo"""
 
 import pygame
 
@@ -14,6 +14,8 @@ def handle_play(board, x, y, placement_board):
                     board[i][j]['shot'] = 1
                     placement_board[i][j]['shot'] = 1
                     placement_board[i][j]['type'] = 'ship'
+                    placement_board[i][j]['axis'] = board[i][j]['axis']
+                    placement_board[i][j]['tip'] = board[i][j]['tip'] if board[i][j]['tip'] else 0
 
     else:
         board[x][y]['shot'] = 1

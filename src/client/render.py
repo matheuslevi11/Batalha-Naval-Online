@@ -1,5 +1,10 @@
 """Renderiza o jogo utilizando pygame"""
 import pygame
+# Inicializando o pygame
+pygame.init()
+SCREENSIZE = (650, 650)
+screen = pygame.display.set_mode(SCREENSIZE, 0, 32)
+pygame.display.set_caption("Batalha Naval Online")
 
 from board import create_board, create_placement_board
 from draw import *
@@ -8,14 +13,9 @@ from client import Socket, connect_player, get_turn, get_score
 
 WIDTH = 650
 HEIGHT = 650
-SCREENSIZE = (WIDTH, HEIGHT)
 placement_board = create_placement_board() # Tabuleiro em branco que aparecerá na tela do jogador
 board = create_board() # Criando o tabuleiro do jogador
 
-# Iniciado o pygame
-pygame.init()
-screen = pygame.display.set_mode(SCREENSIZE, 0, 32)
-pygame.display.set_caption("Batalha Naval Online")
 
 #-----------------------------------------------------------------------------------------------------------
 
@@ -44,9 +44,9 @@ while True:
         
         elif page == 'board':
             if turn == player:
-                draw_text("Seu turno", (0, 100, 0), screen)
+                draw_text("Seu turno", (220, 220, 220), screen)
             else:
-                draw_text("Turno do oponente", (100, 0, 0), screen)
+                draw_text("Turno do oponente", (220, 220, 220), screen)
             played = 0
             if e.type == pygame.MOUSEBUTTONDOWN:
                 for i in range(10):

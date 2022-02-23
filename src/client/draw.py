@@ -1,7 +1,9 @@
-"""Desenha componentes na tela: tabuleiro, letras, páginas"""
+"""Desenha componentes na tela: tabuleiro, letras, navios"""
 
 import pygame
-from images import get_image
+from images import get_image, get_images
+
+images = get_images()
 
 def draw_letter(letter):  
     opensans = pygame.font.SysFont('opensanscondensed', 20)
@@ -16,7 +18,7 @@ def draw_number(number):
 def draw_text(title, color, screen):
     opensans = pygame.font.SysFont('opensanscondensed', 25)
     text = opensans.render(title, True, color)
-    screen.blit(text, (0, 0))
+    screen.blit(text, (20, 20))
     pygame.display.update()
 
 def get_color(id):
@@ -35,11 +37,11 @@ def get_color(id):
 
 def draw_board(screen, board):
     board_buttons = []
-    screen.fill((100,100,100))
+    bd = images['game']
+    screen.blit(bd, (0,0))
     init_x = 80
     init_y = 100
     rect_size = 50
-
     x = init_x
     y = init_y
     
@@ -56,22 +58,41 @@ def draw_board(screen, board):
         row = []
         for j in range(10):
             tile = board[i][j]
-
+            img = False
             if tile['type'] == 'water' and tile['shot']:
-                color = (100,0,0)
+                img = images['watershot']
             elif tile['type'] == 'water':
-                color = (0, 105, 148)
+                color = (14, 55, 128)
             elif tile['type'] == 'ship' and tile['shot']:
-                color = (0, 100, 0)
-            elif tile['type'] == 'ship':
-                color = get_color(board[i][j]['id'])
+                if tile['axis'] == 0:
+                    if not tile['tip']:
+                        img = images['boat_h']
+                    else:
+                        if tile['tip'] == 1:
+                            img = images['boat_left']
+                        else:
+                            img = images['boat_right']
+                else:
+                    if not tile['tip']:
+                        img = images['boat_v']
+                    else:
+                        if tile['tip'] == 1:
+                            img = images['boat_top']
+                        else:
+                            img = images['boat_bottom']
+                
            
             retangulo = pygame.Rect(x, y, rect_size, rect_size)
             row.append(retangulo)
-            pygame.draw.rect(screen, color, retangulo)
-            x += rect_size+1
+            
+            if img:
+                screen.blit(img, retangulo)
+            else:
+                pygame.draw.rect(screen, color, retangulo)
+            
+            x += rect_size+2
         
-        y += rect_size+1
+        y += rect_size+2
         x = init_x
         board_buttons.append(row)
     return board_buttons
@@ -81,7 +102,7 @@ def draw_homepage(screen):
     screen.blit(bd, (0,0))
 
 def draw_wait(screen):
-    bd = get_image('wait.png', (650,650))
+    bd = images['wait']
     screen.blit(bd, (0,0))
 
 def draw_score(screen, score):
@@ -92,7 +113,7 @@ def draw_score(screen, score):
 
 def draw_end(screen, won):
     if won:
-        bd = get_image('won.png', (650, 650))
+        bd = images['won']
     else:
-        bd = get_image('lose.png', (650, 650))
+        bd = images['lose']
     screen.blit(bd, (0,0))
